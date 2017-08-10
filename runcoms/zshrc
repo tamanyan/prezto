@@ -14,9 +14,13 @@ fi
 
 fpath=(path/to/zsh-completions/src $fpath)
 
+# Pyenv
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+
+# Nodebrew
+export PATH=$HOME/.nodebrew/current/bin:$PATH
 
 function peco-history-selection() {
     BUFFER=`history -n 1 | tail -r  | awk '!a[$0]++' | peco`
@@ -28,10 +32,13 @@ zle -N peco-history-selection
 bindkey '^R' peco-history-selection
 
 if [[ -s "${ZDOTDIR:-$HOME}/google-cloud-sdk/path.zsh.inc" ]]; then
-  echo 'ss'
   # The next line updates PATH for the Google Cloud SDK.
   source "${ZDOTDIR:-$HOME}/google-cloud-sdk/path.zsh.inc"
 
   # The next line enables shell command completion for gcloud.
   source "${ZDOTDIR:-$HOME}/google-cloud-sdk/completion.zsh.inc"
 fi
+
+# For iTerm2
+function chpwd() { ls; echo -ne "\033]0;$(pwd | rev | awk -F \/ '{print "/"$1"/"$2}'| rev)\007"}
+chpwd
