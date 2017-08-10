@@ -14,9 +14,13 @@ fi
 
 fpath=(path/to/zsh-completions/src $fpath)
 
+# Pyenv
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+
+# Nodebrew
+export PATH=$HOME/.nodebrew/current/bin:$PATH
 
 function peco-history-selection() {
     BUFFER=`history -n 1 | tail -r  | awk '!a[$0]++' | peco`
@@ -38,3 +42,7 @@ fi
 if [[ -s "${ZDOTDIR:-$HOME}/.nodebrew/current/bin" ]]; then
   export PATH="${ZDOTDIR:-$HOME}/.nodebrew/current/bin:${PATH}"
 fi
+
+# For iTerm2
+function chpwd() { ls; echo -ne "\033]0;$(pwd | rev | awk -F \/ '{print "/"$1"/"$2}'| rev)\007"}
+chpwd
