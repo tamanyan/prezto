@@ -38,7 +38,6 @@ zstyle ':prezto:load' pmodule \
   'ruby' \
   'rails' \
   'syntax-highlighting' \
-  'ssh' \
   'osx' \
   'node' \
   'homebrew' \
